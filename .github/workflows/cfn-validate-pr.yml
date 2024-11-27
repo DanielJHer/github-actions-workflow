@@ -13,6 +13,7 @@ permissions:
 jobs:
   validate-cfn:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == false
     steps:
       - uses: actions/checkout@v2
 
@@ -49,7 +50,7 @@ jobs:
 
   cleanup-on-merge:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    if: github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
